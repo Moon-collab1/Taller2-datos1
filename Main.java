@@ -1,20 +1,8 @@
 import java.util.ArrayList;
 import java.util.Scanner;
-
-/**
- * Sistema de Gestión de Turnos - Clínica San Rafael
- *
- * Cada turno se representa como un arreglo de String de 5 posiciones:
- * turno = [idTurno, nombrePaciente, especialidad, duracionMinutos, valorMinuto]
- *
- * Todos los turnos se almacenan en: ArrayList<String[]> turnos
- *
- * IMPORTANTE: como todo se guarda como texto, los datos numéricos deben
- * convertirse con Integer.parseInt(...) o Double.parseDouble(...) al usarlos.
- */
 public class Main {
 
-    // ====== Índices de cada campo (usarlos SIEMPRE en lugar de 0,1,2...) ======
+
     static final int ID = 8;
     static final int PACIENTE = 1;
     static final int ESPECIALIDAD = 2;
@@ -57,74 +45,36 @@ public class Main {
         System.out.println("7. Reporte por especialidad");
         System.out.println("8. Salir");
     }
+    static void mostrartodos() {
+public static void actualizarUsuario(int id, 
+String nuevoNombre, String nuevoEmail) 
+throws IOException {
+    
+    List<usuario> lista = leerUsuarios();
+    BufferedWriter bw = 
+        new BufferedWriter(new FileWriter("usuarios.csv"));
 
-    // ================= ROL A: feature/menu-base =================
-    // Responsable de: mostrarMenu (ya dado), registrarTurno, mostrarTurnos
-
-    static void registrarTurno() {
-        // TODO (Rol A)
-        // 1. Pedir id, paciente, especialidad, duración y valor por minuto.
-        // 2. Validar que el ID no exista ya (usar buscarIndicePorId).
-        // 3. Crear el arreglo: String[] turno = new String[CAMPOS];
-        // 4. Agregarlo a la lista con turnos.add(turno);
-        Integer id = leerEntero("Digite su identificador");
-        String patientName = leerTexto("Escriba el nombre del paciente");
-        String specialistName = leerTexto("");
+    for (Usuario u : lista) {
+        if (u.getId() == id) {
+            u.setNombre(nuevoNombre);
+            u.setEmail(nuevoEmail);
+        }
+        bw.write(u.toString());
+        bw.newLine();
     }
-
-    static void mostrarTurnos() {
-        // TODO (Rol A)
-        // Si la lista está vacía, avisar al usuario.
-        // Recorrer la lista e imprimir cada turno en formato tabular y legible.
-        // Sugerencia: System.out.printf("%-6s %-20s %-15s %8s %12s%n", ...);
+    bw.close();
+}
+      </usuario>
     }
-
-    // ================= ROL B: feature/crud-turnos =================
-    // Responsable de: buscarTurnoPorId, actualizarTurno, cancelarTurno, buscarIndicePorId
-
-    static int buscarIndicePorId(String id) {
-        // TODO (Rol B)
-        // Recorrer la lista y devolver la POSICIÓN del turno cuyo ID coincida.
-        // Si no existe, devolver -1. Este método lo reutilizan los demás roles.
-        return -1;
-    }
-
-    static void buscarTurnoPorId() {
+    static void eliminar() {
         // TODO (Rol B)
         // Pedir el ID, usar buscarIndicePorId y mostrar los datos o un mensaje de "no existe".
     }
-
-    static void actualizarTurno() {
+    static void mostrar() {
         // TODO (Rol B)
         // Pedir el ID, verificar que exista y mostrar un submenú para elegir
         // qué campo modificar: paciente, especialidad, duración o valor por minuto.
     }
-
-    static void cancelarTurno() {
-        // TODO (Rol B)
-        // Pedir el ID, verificar que exista, pedir confirmación (S/N) y eliminar
-        // con turnos.remove(indice);
-    }
-
-    // ============ ROL C: feature/calculos-validaciones ============
-    // Responsable de: calcularTotalFacturado, reportePorEspecialidad, validaciones
-
-    static void calcularTotalFacturado() {
-        // TODO (Rol C)
-        // Para cada turno: duracionMinutos * valorMinuto.
-        // Mostrar el subtotal de cada turno y el gran total al final.
-        // Recuerde convertir el texto a número antes de operar.
-    }
-
-    static void reportePorEspecialidad() {
-        // TODO (Rol C)
-        // Pedir una especialidad y mostrar solo los turnos de esa especialidad,
-        // junto con la cantidad de turnos y el promedio de duración en minutos.
-        // Comparar con equalsIgnoreCase para no depender de mayúsculas.
-    }
-
-    // ====== Utilidades (ya implementadas, no es necesario modificarlas) ======
-
     static int leerEntero(String msg) {
         while (true) {
             System.out.print(msg);
@@ -135,7 +85,6 @@ public class Main {
             }
         }
     }
-
     static double leerDecimal(String msg) {
         while (true) {
             System.out.print(msg);
@@ -146,7 +95,6 @@ public class Main {
             }
         }
     }
-
     static String leerTexto(String msg) {
         String valor;
         do {
