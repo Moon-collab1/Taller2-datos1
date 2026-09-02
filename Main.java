@@ -26,6 +26,12 @@ public class Main {
                 break;
                 case 6 : listarPrestamo();
                 break;
+                case 7 : try {
+                    ReportePrestamos.mostrarLectoresConMasPrestamos();
+                } catch (IOException e) {
+                    System.out.println("Hubo un error al generar el reporte.");
+                }
+                break;
                 case 0 : System.out.println("¡Hasta luego!");
                 break;
                 default : System.out.println("Opción no válida.");
@@ -43,6 +49,7 @@ public class Main {
         System.out.println("4. Eliminar usuario");
         System.out.println("5. Registrar préstamo");
         System.out.println("6. Listar préstamos");
+        System.out.println("7. Mostrar lectores con más préstamos");
         System.out.println("0. Salir");
         System.out.print("Elige una opción: ");
     }
