@@ -24,7 +24,9 @@ public class Main {
                 break;
                 case 5 : registrarPrestamo();
                 break;
-                case 6 : listarPrestamo();
+                case 6 : listarPrestamos();
+                break;
+                case 7 : historialcompleto();
                 break;
                 case 0 : System.out.println("¡Hasta luego!");
                 break;
@@ -43,6 +45,7 @@ public class Main {
         System.out.println("4. Eliminar usuario");
         System.out.println("5. Registrar préstamo");
         System.out.println("6. Listar préstamos");
+        System.out.println("7. Historial completo");
         System.out.println("0. Salir");
         System.out.print("Elige una opción: ");
     }
@@ -100,6 +103,27 @@ public class Main {
             for (Usuario u : lista) {
                 System.out.println("ID: " + u.getId() + " | Nombre: " + u.getName()
                         + " " + u.getLastname() + " | Tel: " + u.getTelefono());
+            }
+        } catch (Exception e) {
+            System.out.println("Hubo un error al leer los usuarios.");
+        }
+    }
+
+
+    static void listarUsuario(int id) {
+        try {
+            List<Usuario> lista = Usuario.leerUsuarios();
+            if (lista.isEmpty()) {
+                System.out.println("No hay usuarios registrados.");
+                return;
+            }
+            System.out.println("\n-- Usuarios --");
+            for (Usuario u : lista) {
+                if(u.getId()==id){
+                System.out.println("ID: " + u.getId() + " | Nombre: " + u.getName()
+                        + " " + u.getLastname() + " | Tel: " + u.getTelefono());
+                }
+
             }
         } catch (Exception e) {
             System.out.println("Hubo un error al leer los usuarios.");
@@ -177,7 +201,7 @@ public class Main {
             System.out.println("Digite fecha de préstamo (dd/mm/aaaa):");
             String fechap = sc.nextLine();
 
-            System.out.println("Digite fecha de devolución (dd/mm/aaaa):");
+            System.out.println("Digite si el prestamo esta(ACTIVO/DEVUELTO):");
             String fechad = sc.nextLine();
 
             prestamo nuevo = new prestamo(id, idu, nombre, fechap, fechad);
@@ -190,7 +214,30 @@ public class Main {
         }
     }
 
-    static void listarPrestamo() {
+        static void listarPrestamos() {
+        try {
+            System.out.println("digite el id:");
+            int id = Integer.parseInt(sc.nextLine());
+            List<prestamo> lista = prestamo.leerPrestamos();
+            if (lista.isEmpty()) {
+                System.out.println("No hay préstamos registrados.");
+                return;
+            }
+            System.out.println("\n-- Préstamos --");
+            for (prestamo p : lista) {
+                if(p.getIdu()==id){
+                System.out.println("ID: " + p.getId() + " | Usuario: " + p.getIdu()
+                        + " | Artículo: " + p.getName() + " | Prestado: " + p.getFechap()
+                        + " | ESTADO: " + p.getFechad());
+                }
+
+            }
+        } catch (Exception e) {
+            System.out.println("Hubo un error al leer los préstamos.");
+        }
+    }
+
+    static void listarPrestamo(int id) {
         try {
             List<prestamo> lista = prestamo.leerPrestamos();
             if (lista.isEmpty()) {
@@ -199,12 +246,57 @@ public class Main {
             }
             System.out.println("\n-- Préstamos --");
             for (prestamo p : lista) {
+                if(p.getIdu()==id){
                 System.out.println("ID: " + p.getId() + " | Usuario: " + p.getIdu()
                         + " | Artículo: " + p.getName() + " | Prestado: " + p.getFechap()
-                        + " | Devolver: " + p.getFechad());
+                        + " | ESTADO: " + p.getFechad());
+                }
+
             }
         } catch (Exception e) {
             System.out.println("Hubo un error al leer los préstamos.");
         }
     }
-}
+    static void historialcompleto(){
+        try {
+        System.out.println("digite el id:");
+        int id = Integer.parseInt(sc.nextLine());
+        System.out.println("========================================");
+        System.out.println("         HISTORIAL DEL LECTOR           ");
+        System.out.println("========================================");   
+        listarUsuario(id);
+        listarPrestamo(id);
+        cantidadPrestamos(id);
+        } catch (Exception e) {
+            System.out.println("hubo un error");
+        }
+
+
+         
+                
+        
+
+    }
+    static void cantidadPrestamos(int id) throws IOException {
+    List<prestamo> lista = prestamo.leerPrestamos();
+        int total = 0;
+        int activo =0;
+        int devuelto =0;
+        for (prestamo p : lista) {
+            if(p.getIdu() == id){
+            if (p.getFechad().equalsIgnoreCase("ACTIVO") ) {
+                total = total+1;
+                activo=activo+1;
+            }else{
+                total = total+1;
+                devuelto=devuelto+1;
+            }
+            }
+        }
+        System.out.println("");
+        System.out.println("Total de préstamos:"+total);
+        System.out.println("Préstamos activos:"+activo);
+        System.out.println("Préstamos devueltos:"+devuelto);
+    }
+
+    }
