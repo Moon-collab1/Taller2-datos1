@@ -1,8 +1,13 @@
 import java.util.Scanner;
-import java.io.IOException;
-import java.util.Iterator;
-import java.util.List;
+public class Main {
 
+
+    static final int ID = 8;
+    static final int PACIENTE = 1;
+    static final int ESPECIALIDAD = 2;
+    static final int DURACION = 3;
+    static final int VALOR_MINUTO = 4;
+    static final int CAMPOS = 5;
 
 public class Main {
     static Scanner sc = new Scanner(System.in);
@@ -43,6 +48,27 @@ public class Main {
         System.out.println("4. Registrar un préstamo");
         System.out.println("5. Consultar prestamos del lector");
         System.out.println("6. Salir");
+    }
+    static void mostrartodos() {
+public static void actualizarUsuario(int id, 
+String nuevoNombre, String nuevoEmail) 
+throws IOException {
+    
+    List<usuario> lista = leerUsuarios();
+    BufferedWriter bw = 
+        new BufferedWriter(new FileWriter("usuarios.csv"));
+
+    for (Usuario u : lista) {
+        if (u.getId() == id) {
+            u.setNombre(nuevoNombre);
+            u.setEmail(nuevoEmail);
+        }
+        bw.write(u.toString());
+        bw.newLine();
+    }
+    bw.close();
+}
+      </usuario>
     }
 
  static void registrar() {
@@ -89,8 +115,7 @@ public class Main {
         // TODO (Rol B)
         // Pedir el ID, usar buscarIndicePorId y mostrar los datos o un mensaje de "no existe".
     }
-
-    static void actualizarTurno() {
+    static void mostrar() {
         // TODO (Rol B)
         // Pedir el ID, verificar que exista y mostrar un submenú para elegir
         // qué campo modificar: paciente, especialidad, duración o valor por minuto.
@@ -123,7 +148,6 @@ public class Main {
             }
         }
     }
-
     static double leerDecimal(String msg) {
         while (true) {
             System.out.print(msg);
@@ -134,7 +158,6 @@ public class Main {
             }
         }
     }
-
     static String leerTexto(String msg) {
         String valor;
         do {
