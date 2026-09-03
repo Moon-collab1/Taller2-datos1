@@ -7,6 +7,7 @@ public class Main {
     static Scanner sc = new Scanner(System.in);
 
     public static void main(String[] args) {
+       try {
         int opcion;
 
         do {
@@ -28,6 +29,10 @@ public class Main {
                 break;
                 case 7 : historialcompleto();
                 break;
+                case 8 : listadoLectoresPorPrestamos();
+                break;
+                case 9 : librosPrestamo();
+                break;
                 case 0 : System.out.println("¡Hasta luego!");
                 break;
                 default : System.out.println("Opción no válida.");
@@ -35,6 +40,9 @@ public class Main {
             }
 
         } while (opcion != 0);
+       } catch (Exception e) {
+        System.out.println("hubo un error, lamentamos la inconvenencia");
+       } 
     }
 
     static void mostrarMenu() {
@@ -46,6 +54,8 @@ public class Main {
         System.out.println("5. Registrar préstamo");
         System.out.println("6. Listar préstamos");
         System.out.println("7. Historial completo");
+        System.out.println("8. usuario con mas prestamos");
+        System.out.println("9. libros prestados");
         System.out.println("0. Salir");
         System.out.print("Elige una opción: ");
     }
@@ -297,6 +307,97 @@ public class Main {
         System.out.println("Total de préstamos:"+total);
         System.out.println("Préstamos activos:"+activo);
         System.out.println("Préstamos devueltos:"+devuelto);
+    }
+//8./////
+
+static void listadoLectoresPorPrestamos() throws IOException{
+List<prestamo> prestamos = prestamo.leerPrestamos();
+List<Usuario> usuarios =Usuario.leerUsuarios();
+
+int n= usuarios.size();
+
+int[] totales =new int[n];
+int[] activos =new int[n];
+int[] devueltos = new int[n];
+
+for (int i = 0; i < n; i++) {
+    int id = usuarios.get(i).getId();
+    for(prestamo p : prestamos){
+        if(p.getIdu()==id){
+            totales[i]++;
+        if(p.getFechad().equalsIgnoreCase("ACTIVO")){
+            activos[i]++;
+        }else{
+            devueltos[i]++;
+        }
+        }
+    }
+}
+
+for (int i = 0; i < n-1; i++) {
+    for (int j = 0; j < n-1-i; j++) {
+        if(debeintercambiar(usuarios.get(j), usuarios.get(j+1), totales[j],totales[j+1])){
+            Usuario temp= usuarios.get(j);
+            usuarios.set(j, usuarios.get(j+1));
+            usuarios.set(j+1, temp);
+
+            int t=totales[j];totales[j]=totales[j+1];totales[j+1]=t;
+            int a=activos[j];activos[j]=activos[j+1];activos[j+1]=a;
+            int b= devueltos[j];devueltos[j]=devueltos[j+1];devueltos[j+1]=b;
+        }
+    }
+}
+
+     
+
+System.out.println("========================================");
+System.out.println("         LECTORES CON MÁS PRÉSTAMOS     ");
+System.out.println("========================================");
+System.out.printf("%-12s %-20s %15s %12s %8s%n","ID","USUARIO","TOTAL","ACTIVOS","DEVUELTOS");
+System.out.println("--------------------------------------------------------------------------------");
+for (int i = 0; i < n; i++) {
+    Usuario u = usuarios.get(i);
+        System.out.printf("%-12d %-20s %15d %12d %8d%n",u.getId(),u.getName()+" "+u.getLastname(),totales[i],activos[i],devueltos[i]);
+    
+}
+
+
+
+}
+
+static boolean debeintercambiar(Usuario a, Usuario b, int A, int B){
+if(A!=B){ 
+    return A<B;
+}
+if(!a.getLastname().equalsIgnoreCase(b.getLastname())){
+    return a.getLastname().compareTo(b.getLastname())>0;
+}
+if(!a.getName().equalsIgnoreCase(b.getName())){
+    return a.getName().compareTo(b.getName())>0;
+}
+return a.getId() > b.getId();
+}
+
+//////////9///////
+    static void librosPrestamo() {
+        try {
+            List<prestamo> lista = prestamo.leerPrestamos();
+            if (lista.isEmpty()) {
+                System.out.println("No hay préstamos registrados.");
+                return;
+            }
+
+            System.out.println("\n-- Préstamos --");
+            for (prestamo p : lista) {
+                if(p.getFechad().equalsIgnoreCase("ACTIVO")){
+                System.out.println("ID: " + p.getId() + " | Usuario: " + p.getIdu()
+                        + " | Artículo: " + p.getName() + " | Prestado: " + p.getFechap());
+                }
+
+            }
+        } catch (Exception e) {
+            System.out.println("Hubo un error al leer los préstamos.");
+        }
     }
 
     }
