@@ -29,15 +29,13 @@ public class Main {
                 break;
                 case 7 : historialcompleto();
                 break;
-                case 8 : listadoLectoresPorPrestamos();
-                break;
-                case 9 : librosPrestamo();
-                break;
-                case 7 : try {
+                case 8 : try {
                     ReportePrestamos.mostrarLectoresConMasPrestamos();
                 } catch (IOException e) {
                     System.out.println("Hubo un error al generar el reporte.");
                 }
+                break;
+                case 9 : librosPrestamo();
                 break;
                 case 0 : System.out.println("¡Hasta luego!");
                 break;
